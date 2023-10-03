@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . . 
 
-RUN apt update && apt install build-essential
+RUN apt update && apt install -y build-essential
 
 RUN conda create -n pestocus python=3.9 
 
