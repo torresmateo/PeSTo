@@ -15,9 +15,9 @@ from src.structure import data_to_structure, encode_bfactor, concatenate_chains,
 from src.structure_io import save_pdb, read_pdb
 from src.scoring import bc_scoring, bc_score_names
 
-from config import config_model, config_data
-from data_handler import Dataset
-from model import Model
+from model.config import config_model, config_data
+from model.data_handler import Dataset
+from model.model import Model
 # data parameters
 data_path = "examples/issue_19_04_2023"
 
