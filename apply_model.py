@@ -18,6 +18,19 @@ from src.scoring import bc_scoring, bc_score_names
 from model.config import config_model, config_data
 from model.data_handler import Dataset
 from model.model import Model
+
+import logging
+
+logger = logging.getLogger('PeSTo main script')
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    "%Y-%m-%d %H:%M:%S")
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
 # data parameters
 data_path = "examples/issue_19_04_2023"
 
@@ -65,6 +78,7 @@ print(len(dataset))
 # run model on all subunits
 with pt.no_grad():
     for subunits, filepath in tqdm(dataset):
+        logger.info(f"{subunits=} {filepath=}")
         # concatenate all chains together
         structure = concatenate_chains(subunits)
 
