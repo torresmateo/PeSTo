@@ -70,7 +70,10 @@ def run(data_path: str, output_dir: Path) -> None:
 
     # find pdb files and ignore already predicted oins
     pdb_filepaths = glob(os.path.join(data_path, "*.pdb"), recursive=True)
-    pdb_filepaths = [fp for fp in pdb_filepaths if "_i" not in fp]
+    # print(pdb_filepaths)
+    # pdb_filepaths = [fp for fp in pdb_filepaths if "_i" not in fp]
+
+    # print(pdb_filepaths)
 
     # create dataset loader with preprocessing
     dataset = StructuresDataset(pdb_filepaths, with_preprocessing=True)
@@ -127,4 +130,4 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output-dir", required=True,
                         help="A path to write the renamed PDB files")
     args = parser.parse_args()
-    run(args.input_dir, args.output_dir)
+    run(args.input_dir, Path(args.output_dir))
