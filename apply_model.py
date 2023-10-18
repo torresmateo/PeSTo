@@ -39,6 +39,8 @@ def run(data_path: str, output_dir: Path) -> None:
     logger.info(f"output will be saved here: {output_dir=}")
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    error_log = output_dir / "error_log.txt"
+
     # model parameters
     # R3
     # save_path = "model/save/i_v3_0_2021-05-27_14-27"  # 89
@@ -114,12 +116,16 @@ def run(data_path: str, output_dir: Path) -> None:
                 # encode result
                 structure = encode_bfactor(structure, p.cpu().numpy())
 
-                print(structure)
-
                 # save results
                 output_filepath = output_dir / f"{fpath.name}-interface_{i}"
                 logger.info(f"saving prediction into {output_filepath=}")
-                save_pdb(split_by_chain(structure), output_filepath)
+                try:
+                    save_pdb(split_by_chain(structure), output_filepath)
+                except IndexError:
+                    logger.error(f"failed to process {filepath=}")
+                    with error_log.open("a") as errlog:
+                        errlog.write(filepath)
+                        errlog.write("\n")
 
 
 if __name__ == "__main__":
