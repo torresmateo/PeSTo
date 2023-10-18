@@ -33,6 +33,11 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 
+def log_error(error_log: Path, error_type: str,  message: str) -> None:
+    with error_log.open("a") as errlog:
+        errlog.write(f"[{error_type}] {message}\n")
+
+
 def run(data_path: str, output_dir: Path) -> None:
     # data parameters
     # data_path = "examples/issue_19_04_2023"
@@ -89,7 +94,11 @@ def run(data_path: str, output_dir: Path) -> None:
             logger.info(f"{filepath=}")
             fpath = Path(filepath)
             # concatenate all chains together
-            structure = concatenate_chains(subunits)
+            try:
+                structure = concatenate_chains(subunits)
+            except TypeError:
+                logger.error(f"Type error on concatenate_chains {filepath=}")
+                log_error(error_log, "TypeError", str(filepath))
 
             # encode structure and features
             X, M = encode_structure(structure)
@@ -122,9 +131,7 @@ def run(data_path: str, output_dir: Path) -> None:
                     save_pdb(split_by_chain(structure), output_filepath)
                 except IndexError:
                     logger.error(f"failed to process {filepath=}")
-                    with error_log.open("a") as errlog:
-                        errlog.write(filepath)
-                        errlog.write("\n")
+                    log_error(error_log, "IndexError", str(filepath))
 
 
 if __name__ == "__main__":
