@@ -118,7 +118,6 @@ def run(data_path: str, output_dir: Path) -> None:
 
                 # save results
                 output_filepath = output_dir / f"{fpath.name}-interface_{i}"
-                logger.info(f"saving prediction into {output_filepath=}")
                 try:
                     save_pdb(split_by_chain(structure), output_filepath)
                 except IndexError:
