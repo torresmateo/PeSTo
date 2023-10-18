@@ -111,6 +111,7 @@ def save_pdb(subunits, filepath):
                 else:
                     bf = 0.0
 
+                print(cn)
                 # extract single character chain name
                 c = cn.split(':')[0][0]
 

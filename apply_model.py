@@ -114,6 +114,8 @@ def run(data_path: str, output_dir: Path) -> None:
                 # encode result
                 structure = encode_bfactor(structure, p.cpu().numpy())
 
+                print(structure)
+
                 # save results
                 output_filepath = output_dir / f"{fpath.name}-interface_{i}"
                 logger.info(f"saving prediction into {output_filepath=}")
