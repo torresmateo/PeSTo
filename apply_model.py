@@ -38,6 +38,12 @@ def log_error(error_log: Path, error_type: str,  message: str) -> None:
         errlog.write(f"[{error_type}] {message}\n")
 
 
+def check_processed(filepath: str, output_dir: Path) -> bool:
+    if len(list(output_dir.glob(Path(filepath).name + "*"))) == 5:
+        return True
+    return False
+
+
 def run(data_path: str, output_dir: Path) -> None:
     # data parameters
     # data_path = "examples/issue_19_04_2023"
@@ -91,10 +97,12 @@ def run(data_path: str, output_dir: Path) -> None:
     # run model on all subunits
     with pt.no_grad():
         for subunits, filepath in tqdm(dataset):
-            logger.info(f"{filepath=}")
             fpath = Path(filepath)
-            # concatenate all chains together
+            if check_processed(filepath, output_dir):
+                logger.info(f"{filepath} already processed")
+                continue
             try:
+                # concatenate all chains together
                 structure = concatenate_chains(subunits)
             except TypeError:
                 logger.error(f"Type error on concatenate_chains {filepath=}")
