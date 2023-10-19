@@ -106,6 +106,7 @@ def run(data_path: str, output_dir: Path) -> None:
                 structure = concatenate_chains(subunits)
             except TypeError:
                 log_error(error_log, "TypeError", str(filepath))
+                continue
 
             # encode structure and features
             X, M = encode_structure(structure)
