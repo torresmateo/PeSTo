@@ -105,7 +105,6 @@ def run(data_path: str, output_dir: Path) -> None:
                 # concatenate all chains together
                 structure = concatenate_chains(subunits)
             except TypeError:
-                logger.error(f"Type error on concatenate_chains {filepath=}")
                 log_error(error_log, "TypeError", str(filepath))
 
             # encode structure and features
@@ -138,7 +137,6 @@ def run(data_path: str, output_dir: Path) -> None:
                 try:
                     save_pdb(split_by_chain(structure), output_filepath)
                 except IndexError:
-                    logger.error(f"failed to process {filepath=}")
                     log_error(error_log, "IndexError", str(filepath))
 
 
